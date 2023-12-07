@@ -24,12 +24,23 @@ public class Main {
                     char c = s.charAt(i);
                     map.merge(c, 1, Integer::sum);
                 }
-                ArrayList<Integer> counts = new ArrayList<>(map.values());
-                counts.sort(Comparator.reverseOrder());
-                hands.add(new Hand(counts, s, val));
+                int j = 0;
+                if (map.containsKey('J')) {
+                    j = map.get('J');
+                }
+                map.remove('J');
+                ArrayList<Integer> countsNoJ = new ArrayList<>(map.values());
+                countsNoJ.sort(Comparator.reverseOrder());
+                if(countsNoJ.isEmpty()){
+                    countsNoJ.add(5);
+                }else{
+                    countsNoJ.set(0, countsNoJ.get(0) + j);
+                }
+                hands.add(new Hand(countsNoJ, s, val));
             }
             hands.sort(Hand::compare);
             for (int i = 0; i < hands.size(); i++){
+                System.out.println(hands.get(i).hand + ", " + hands.get(i).countsNoJ);
                 total += hands.get(i).val * (i + 1);
             }
             System.out.println(total);
