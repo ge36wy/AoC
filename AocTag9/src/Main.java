@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,6 +23,7 @@ public class Main {
                 for(String s2: nums){
                     numbers.add(Long.parseLong(s2));
                 }
+                Collections.reverse(numbers);
                 listOfNums.add(numbers);
                 while(!listOfNums.get(listOfNums.size() - 1).stream().allMatch(e -> e.equals(0L))){
                     ArrayList<Long> current = listOfNums.get(listOfNums.size() - 1);
