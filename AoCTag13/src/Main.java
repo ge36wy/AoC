@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Collections;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,37 +23,28 @@ public class Main {
                 }
             }
             patterns.add(pattern);
-
-
+            //create flipped
+            ArrayList<ArrayList<String>> flipped = new ArrayList<>();
             for(ArrayList<String> patt: patterns) {
-                for (int i = 0; i < patt.size() - 1; i++) {
-                    if (patt.get(i).equals(patt.get(i + 1))) {
-                        if (isReflection(patt, i - 1, i + 2)) {
-                            System.out.println(i + " A");
-                            total += (i + 1) * 100L;
+                flipped.add(flip(patt));
+            }
+            for(int i = 0; i < patterns.size(); i++) {
+                boolean found = false;
+                ArrayList<String> nor = patterns.get(i);
+                for(int j = 0; j < nor.size() - 1; j++){
+                    if(!found) {
+                        if (countDiffs(nor, j) == 1) {
+                            found = true;
+                            total += (j + 1) * 100L;
                         }
                     }
                 }
-            }
-            ArrayList<ArrayList<String>> flipped = new ArrayList<>();
-            for(ArrayList<String> patt: patterns) {
-                ArrayList<String> st = new ArrayList<>();
-                StringBuilder s = new StringBuilder();
-                for(int i = 0; i < patt.get(0).length(); i++){
-                    for(String li: patt){
-                       s.append(li.charAt(i));
-                    }
-                    st.add(String.valueOf(s));
-                    s = new StringBuilder();
-                }
-                flipped.add(st);
-            }
-            for(ArrayList<String> patt: flipped) {
-                for (int i = 0; i < patt.size() - 1; i++) {
-                    if (patt.get(i).equals(patt.get(i + 1))) {
-                        if (isReflection(patt, i - 1, i + 2)) {
-                            System.out.println(i + " B");
-                            total += (i + 1);
+                ArrayList<String> fl = flipped.get(i);
+                for(int j = 0; j < fl.size() - 1; j++){
+                    if(!found) {
+                        if (countDiffs(fl, j) == 1) {
+                            found = true;
+                            total += j + 1;
                         }
                     }
                 }
@@ -64,14 +55,30 @@ public class Main {
         }
     }
 
-    public static boolean isReflection(ArrayList<String> patt, int st, int fin){
-        while (st >= 0 && fin < patt.size()){
-            if(!Objects.equals(patt.get(st), patt.get(fin))){
-                return false;
+    public static int countDiffs(ArrayList<String> pattern, int index){
+        int differences = 0;
+        int count = Math.min(index, pattern.size() - (index + 2)) + 1;
+        ArrayList<String> before = new ArrayList<>(pattern.subList(index + 1 - count, index + 1));
+        ArrayList<String> after = new ArrayList<>(pattern.subList(index + 1, index + count + 1));
+        Collections.reverse(before);
+        for (int i = 0; i < before.size(); i++){
+            for (int j = 0; j < before.get(i).length(); j++){
+                if(before.get(i).charAt(j) != after.get(i).charAt(j)) differences++;
             }
-            st--;
-            fin++;
         }
-        return true;
+        return differences;
+    }
+
+    public static ArrayList<String> flip(ArrayList<String> original){
+        ArrayList<String> st = new ArrayList<>();
+        StringBuilder s = new StringBuilder();
+        for(int i = 0; i < original.get(0).length(); i++){
+            for(String li: original){
+                s.append(li.charAt(i));
+            }
+            st.add(String.valueOf(s));
+            s = new StringBuilder();
+        }
+        return st;
     }
 }
