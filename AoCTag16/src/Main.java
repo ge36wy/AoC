@@ -15,6 +15,8 @@ public class Main {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
             String line;
             long total = 0;
+            long max = 0;
+            int lineLength;
             ArrayList<char[]> layout = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
                 layout.add(line.toCharArray());
@@ -22,13 +24,87 @@ public class Main {
                 Arrays.fill(b, false);
                 illuminated.add(b);
             }
-            getnext(Direction.RIGHT, 0, 0, layout);
-            for(boolean[] b: illuminated){
-                for (boolean value : b) {
-                    if (value) total++;
+
+            //left edge
+            for(int i = 0; i < layout.size(); i++) {
+                getnext(Direction.RIGHT, i, 0, layout);
+                for(boolean[] b: illuminated){
+                    for (boolean value : b) {
+                        if (value) total++;
+                    }
+                }
+                System.out.println(total);
+                if(total > max) max = total;
+                total = 0;
+                states = new ArrayList<>();
+                illuminated = new ArrayList<>();
+                for(int j = 0; j < layout.size(); j++) {
+                    boolean[] b = new boolean[layout.get(0).length];
+                    Arrays.fill(b, false);
+                    illuminated.add(b);
                 }
             }
-            System.out.println(total);
+
+            //right edge
+            for(int i = 0; i < layout.size(); i++) {
+                getnext(Direction.LEFT, i, layout.get(0).length - 1, layout);
+                for(boolean[] b: illuminated){
+                    for (boolean value : b) {
+                        if (value) total++;
+                    }
+                }
+                System.out.println(total);
+                if(total > max) max = total;
+                total = 0;
+                states = new ArrayList<>();
+                illuminated = new ArrayList<>();
+                for(int j = 0; j < layout.size(); j++) {
+                    boolean[] b = new boolean[layout.get(0).length];
+                    Arrays.fill(b, false);
+                    illuminated.add(b);
+                }
+            }
+
+            //top edge
+            for(int i = 0; i < layout.get(0).length; i++) {
+                getnext(Direction.DOWN, 0, i, layout);
+                for(boolean[] b: illuminated){
+                    for (boolean value : b) {
+                        if (value) total++;
+                    }
+                }
+                System.out.println(total);
+                if(total > max) max = total;
+                total = 0;
+                states = new ArrayList<>();
+                illuminated = new ArrayList<>();
+                for(int j = 0; j < layout.size(); j++) {
+                    boolean[] b = new boolean[layout.get(0).length];
+                    Arrays.fill(b, false);
+                    illuminated.add(b);
+                }
+            }
+
+            //bottom edge
+            for(int i = 0; i < layout.size(); i++) {
+                getnext(Direction.UP, layout.size() - 1, i, layout);
+                for(boolean[] b: illuminated){
+                    for (boolean value : b) {
+                        if (value) total++;
+                    }
+                }
+                System.out.println(total);
+                if(total > max) max = total;
+                total = 0;
+                states = new ArrayList<>();
+                illuminated = new ArrayList<>();
+                for(int j = 0; j < layout.size(); j++) {
+                    boolean[] b = new boolean[layout.get(0).length];
+                    Arrays.fill(b, false);
+                    illuminated.add(b);
+                }
+            }
+            System.out.println(max);
         } catch (Exception e) {
             e.printStackTrace();
         }
