@@ -3,7 +3,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class Main {
     public static ArrayList<boolean[]> illuminated = new ArrayList<>();
@@ -16,7 +15,6 @@ public class Main {
             String line;
             long total = 0;
             long max = 0;
-            int lineLength;
             ArrayList<char[]> layout = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
                 layout.add(line.toCharArray());
@@ -33,7 +31,6 @@ public class Main {
                         if (value) total++;
                     }
                 }
-                System.out.println(total);
                 if(total > max) max = total;
                 total = 0;
                 states = new ArrayList<>();
@@ -53,7 +50,6 @@ public class Main {
                         if (value) total++;
                     }
                 }
-                System.out.println(total);
                 if(total > max) max = total;
                 total = 0;
                 states = new ArrayList<>();
@@ -73,7 +69,6 @@ public class Main {
                         if (value) total++;
                     }
                 }
-                System.out.println(total);
                 if(total > max) max = total;
                 total = 0;
                 states = new ArrayList<>();
@@ -93,7 +88,6 @@ public class Main {
                         if (value) total++;
                     }
                 }
-                System.out.println(total);
                 if(total > max) max = total;
                 total = 0;
                 states = new ArrayList<>();
