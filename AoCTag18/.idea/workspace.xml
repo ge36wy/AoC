@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="62076455-6ce9-48ae-85a4-8abf84ea39f9" name="Changes" comment="">
+    <list default="true" id="62076455-6ce9-48ae-85a4-8abf84ea39f9" name="Changes" comment="AoC Tag 18 Teil 1">
       <change afterPath="$PROJECT_DIR$/../AoCTag17/.idea/codeStyles/Project.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../AoCTag17/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../AoCTag17/.idea/misc.xml" afterDir="false" />
@@ -17,17 +17,13 @@
       <change afterPath="$PROJECT_DIR$/../AoCTag17/src/VisitedState.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../AoCTag17/src/input.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AoCTag18.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Direction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Instruction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Coordinate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Matrix.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../AoCTag16/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../AoCTag16/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Instruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Instruction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/input.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +36,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -89,6 +85,21 @@
       <option name="presentableId" value="Default" />
       <updated>1702905536566</updated>
     </task>
+    <task id="LOCAL-00001" summary="AoC Tag 18 Teil 1">
+      <created>1702908990742</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1702908990742</updated>
+    </task>
+    <task id="LOCAL-00002" summary="AoC Tag 18 Teil 1">
+      <created>1702909027113</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702909027113</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -101,5 +112,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="AoC Tag 18 Teil 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="AoC Tag 18 Teil 1" />
   </component>
 </project>

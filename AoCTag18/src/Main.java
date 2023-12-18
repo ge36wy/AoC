@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,102 +11,47 @@ public class Main {
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
             String line;
             long total = 0;
-            ArrayList<ArrayList<Character>> ground = new ArrayList<>();
-            ArrayList<Character> row = new ArrayList<>();
-            row.add('#');
-            ground.add(row);
+            long border = 0;
+            ArrayList<Coordinate> coordinates = new ArrayList<>();
             ArrayList<Instruction> instructions = new ArrayList<>();
             while ((line = reader.readLine()) != null) {
-                String[] s = line.split("\s");
-                instructions.add(new Instruction(Direction.valueOf(s[0]), Integer.parseInt(s[1]), s[2]));
+                String s = line.split("\s")[2];
+                s = s.substring(2, s.length() - 1);
+                Direction d = null;
+                if(s.charAt(s.length() - 1) == '0') d = Direction.R;
+                if(s.charAt(s.length() - 1) == '1') d = Direction.D;
+                if(s.charAt(s.length() - 1) == '2') d = Direction.L;
+                if(s.charAt(s.length() - 1) == '3') d = Direction.U;
+                long distance = Long.parseLong(s.substring(0, s.length() - 1), 16);
+                border += distance;
+                instructions.add(new Instruction(d, distance));
             }
-            int currentX = 0;
-            int currentY = 0;
-            for (Instruction instruction: instructions) {
-                for (int i = 0; i < instruction.distance; i++){
-                    switch (instruction.direction){
-                        case U -> {
-                            if(currentX > 0){
-                                currentX--;
-                                ground.get(currentX).set(currentY, '#');
-                            }else{
-                                ArrayList<Character> newline = new ArrayList<>();
-                                for(Character c: ground.get(0)){
-                                    newline.add('.');
-                                }
-                                newline.set(currentY, '#');
-                                ground.add(0, newline);
-                            }
-                        }
-                        case D -> {
-                            currentX++;
-                            if(currentX >= ground.size()){
-                                ArrayList<Character> newline = new ArrayList<>();
-                                for(Character c: ground.get(0)){
-                                    newline.add('.');
-                                }
-                                ground.add(newline);
-                            }
-                            ground.get(currentX).set(currentY, '#');
-                        }
-                        case L -> {
-                            if(currentY > 0){
-                                currentY--;
-                            }else{
-                                for(ArrayList<Character> c: ground){
-                                    c.add(0, '.');
-                                }
-                            }
-                            ground.get(currentX).set(currentY, '#');
-                        }
-                        case R -> {
-                            currentY++;
-                            if(currentY >= ground.get(0).size()){
-                                for(ArrayList<Character> c: ground){
-                                    c.add('.');
-                                }
-                            }
-                            ground.get(currentX).set(currentY, '#');
-                        }
-                    }
+
+            coordinates.add(new Coordinate(0, 0));
+            for(int i = 1; i < instructions.size(); i++) {
+                long x = 0;
+                long y = 0;
+                for(int j = 0; j < i; j++) {
+                    if (instructions.get(j).direction == Direction.D) x += instructions.get(j).distance;
+                    if (instructions.get(j).direction == Direction.U) x -= instructions.get(j).distance;
+                    if (instructions.get(j).direction == Direction.R) y += instructions.get(j).distance;
+                    if (instructions.get(j).direction == Direction.L) y -= instructions.get(j).distance;
                 }
+                coordinates.add(new Coordinate(x, y));
             }
-            //border
-            ArrayList<Character> newLine = new ArrayList<>();
-            ArrayList<Character> newLine2 = new ArrayList<>();
-            for (Character c: ground.get(0)){
-                newLine.add('_');
-                newLine2.add('_');
+            ArrayList<Matrix> matrices = new ArrayList<>();
+            for(int i = 0; i < coordinates.size(); i++){
+                Coordinate c1 = coordinates.get(i);
+                Coordinate c2 = coordinates.get((i + 1) % coordinates.size());
+                matrices.add(new Matrix(c1, c2));
+
             }
-            ground.add(0, newLine);
-            ground.add(newLine2);
-            for (ArrayList<Character> c: ground){
-                c.add('_');
-                c.add(0, '_');
+            for (Matrix m: matrices) {
+                total += m.determ();
             }
-            int replaced = 1;
-            while (replaced > 0){
-                replaced = 0;
-                for(int i = 1; i < ground.size() - 1; i++){
-                    for (int j = 1; j < ground.get(0).size() - 1; j++){
-                        if(ground.get(i).get(j) == '.'){
-                            if((ground.get(i - 1).get(j) == '_') || (ground.get(i + 1).get(j) == '_') || (ground.get(i).get(j - 1) == '_') || (ground.get(i).get(j + 1) == '_')){
-                                replaced++;
-                                ground.get(i).set(j, '_');
-                            }
-                        }
-                    }
-                }
-            }
-            for(int i = 1; i < ground.size() - 1; i++){
-                for (int j = 1; j < ground.get(0).size() - 1; j++) {
-                    if(ground.get(i).get(j) == '.') ground.get(i).set(j, '#');
-                }
-            }
-            for(ArrayList<Character> c: ground){
-                total += Collections.frequency(c, '#');
-            }
-            System.out.println(total);
+            total = Math.abs(total) + border;
+            total /= 2;
+            System.out.println((total + 1));
         } catch (Exception e) {
             e.printStackTrace();
         }

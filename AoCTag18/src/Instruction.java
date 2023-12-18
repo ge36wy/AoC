@@ -1,11 +1,8 @@
 public class Instruction {
     Direction direction;
-    int distance;
-    String color;
-
-    public Instruction(Direction direction, int distance, String color){
+    long distance;
+    public Instruction(Direction direction, long distance){
         this.direction = direction;
         this.distance = distance;
-        this.color = color;
     }
 }
