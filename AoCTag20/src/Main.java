@@ -52,7 +52,6 @@ public class Main {
                     currentSignals.addAll(sendSignal(current));
                 }
             }
-            //System.out.println("Done");
         } catch (Exception e) {
             e.printStackTrace();
         }
