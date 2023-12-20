@@ -46,67 +46,27 @@ public class Main {
                 if(current.state.id == finish1.id) break;
                 ArrayList<State> follows = new ArrayList<>();
                 if(current.state.direction == Directions.UPDOWN){
-                    if(current.state.y < layout.get(0).size() - 1) {
-                        State s1 = horizontal.get(current.state.id + 1);
-                        s1.direction = Directions.LEFTRIGHT;
-                        follows.add(s1);
-                    }
-                    if(current.state.y > 0) {
-                        State s4 = horizontal.get(current.state.id - 1);
-                        s4.direction = Directions.LEFTRIGHT;
-                        follows.add(s4);
-                    }
-                    if(current.state.y < layout.get(0).size() - 2) {
-                        State s2 = horizontal.get(current.state.id + 2);
-                        s2.direction = Directions.LEFTRIGHT;
-                        follows.add(s2);
-                    }
-                    if(current.state.y > 1) {
-                        State s5 = horizontal.get(current.state.id - 2);
-                        s5.direction = Directions.LEFTRIGHT;
-                        follows.add(s5);
-                    }
-                    if(current.state.y < layout.get(0).size() - 3) {
-                        State s3 = horizontal.get(current.state.id + 3);
-                        s3.direction = Directions.LEFTRIGHT;
-                        follows.add(s3);
-                    }
-                    if(current.state.y > 2) {
-                        State s6 = horizontal.get(current.state.id - 3);
-                        s6.direction = Directions.LEFTRIGHT;
-                        follows.add(s6);
+                    for(int i = 4; i <= 10; i++) {
+                        if (current.state.y < layout.get(0).size() - i) {
+                            State s = horizontal.get(current.state.id + i);
+                            follows.add(s);
+                        }
+                        if (current.state.y > i - 1) {
+                            State s = horizontal.get(current.state.id - i);
+                            follows.add(s);
+                        }
                     }
                 }
                 if(current.state.direction == Directions.LEFTRIGHT){
-                    if(current.state.x < layout.get(0).size() - 1) {
-                        State s1 = vertical.get(current.state.id + layout.size());
-                        s1.direction = Directions.UPDOWN;
-                        follows.add(s1);
-                    }
-                    if(current.state.x > 0) {
-                        State s4 = vertical.get(current.state.id - layout.size());
-                        s4.direction = Directions.UPDOWN;
-                        follows.add(s4);
-                    }
-                    if(current.state.x < layout.get(0).size() - 2) {
-                        State s2 = vertical.get(current.state.id + 2 * layout.size());
-                        s2.direction = Directions.UPDOWN;
-                        follows.add(s2);
-                    }
-                    if(current.state.x > 1) {
-                        State s5 = vertical.get(current.state.id - 2 * layout.size());
-                        s5.direction = Directions.UPDOWN;
-                        follows.add(s5);
-                    }
-                    if(current.state.x < layout.get(0).size() - 3) {
-                        State s3 = vertical.get(current.state.id + 3 * layout.size());
-                        s3.direction = Directions.UPDOWN;
-                        follows.add(s3);
-                    }
-                    if(current.state.x > 2) {
-                        State s6 = vertical.get(current.state.id - 3 * layout.size());
-                        s6.direction = Directions.UPDOWN;
-                        follows.add(s6);
+                    for(int i = 4; i <= 10; i++) {
+                        if (current.state.x < layout.get(0).size() - i) {
+                            State s = vertical.get(current.state.id + i * layout.size());
+                            follows.add(s);
+                        }
+                        if (current.state.x > i - 1) {
+                            State s = vertical.get(current.state.id - i * layout.size());
+                            follows.add(s);
+                        }
                     }
                 }
                 for(State next: follows){
