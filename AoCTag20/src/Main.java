@@ -8,8 +8,7 @@ public class Main {
     static ArrayList<Module> modules = new ArrayList<>();
     static ArrayList<Conjunction> conjunctions = new ArrayList<>();
     static ArrayList<String> starts = new ArrayList<>();
-    static long highSent = 0;
-    static long lowSent = 0;
+    static int counter = 0;
     public static void main(String[] args) {
         InputStream input = Main.class.getResourceAsStream("input.txt");
         try {
@@ -40,29 +39,30 @@ public class Main {
                     }
                 }
             }
-            for (int i = 0; i < 1000; i++) {
+            while (counter < 10000) {
+                counter++;
                 ArrayList<Signal> currentSignals = new ArrayList<>();
                 for (String s : starts) {
                     Module rec = modules.stream().filter(x -> x.name.equals(s)).findFirst().orElse(null);
                     currentSignals.add(new Signal(broadcaster, rec, false));
                 }
-                lowSent++;
                 while (!currentSignals.isEmpty()) {
                     Signal current = currentSignals.get(0);
                     currentSignals.remove(0);
                     currentSignals.addAll(sendSignal(current));
                 }
             }
-            System.out.println(highSent * lowSent);
-            System.out.println(lowSent);
+            //System.out.println("Done");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
    public static ArrayList<Signal> sendSignal(Signal current){
-        if(current.isHigh) highSent++;
-        else lowSent++;
+        //alle vier Vorgänger, dann kgV
+        if (current.sender.name.equals("fk") && current.isHigh) {
+            System.out.println(counter);
+        }
         ArrayList<Signal> signals = new ArrayList<>();
         FlipFlop dummyFlop = new FlipFlop("", false, null);
         Conjunction dummyCon = new Conjunction("", null);
@@ -87,9 +87,6 @@ public class Main {
                 if(modules.stream().anyMatch(x -> x.name.equals(s))) {
                     Module r = modules.stream().filter(x -> x.name.equals(s)).findFirst().orElse(null);
                     signals.add(new Signal(current.receiver, r, high));
-                }else{
-                    if(high) highSent++;
-                    else lowSent++;
                 }
             }
             return signals;
