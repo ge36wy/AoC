@@ -15,8 +15,27 @@ public class Hail {
         this.vx = vx;
         this.vy = vy;
         this.vz = vz;
+        setBM();
+    }
+
+    public void setBM(){
         this.m = (double)vy / vx;
         this.b = py - m * px;
+    }
+
+    public void setVx(long vx) {
+        this.vx = vx;
+        setBM();
+    }
+
+    public void setVy(long vy) {
+        this.vy = vy;
+        setBM();
+    }
+
+    public void setVz(long vz) {
+        this.vz = vz;
+        setBM();
     }
 
     @Override
