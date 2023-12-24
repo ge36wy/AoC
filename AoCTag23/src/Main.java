@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Main {
     static HashMap<Point, Character> layout = new HashMap<>();
-    static HashMap<Point, ArrayList<Point>> neighbors = new HashMap<>();
+    static HashMap<Point, HashMap<Point, Integer>> distances = new HashMap<>();
     public static void main(String[] args) {
         InputStream input = Main.class.getResourceAsStream("input.txt");
         try {
@@ -14,6 +14,7 @@ public class Main {
             String line;
             Point start = null;
             Point finish = null;
+            HashMap<Point, ArrayList<Point>> neighbors = new HashMap<>();
             int c = 0;
             while ((line = reader.readLine()) != null) {
                     for(int i = 0; i < line.length(); i++){
@@ -24,6 +25,7 @@ public class Main {
                     }
                 c++;
             }
+            ArrayList<Point> intersections = new ArrayList<>();
             ArrayList<Point> directions = new ArrayList<>();
             directions.add(new Point(1, 0));
             directions.add(new Point(-1, 0));
@@ -34,55 +36,73 @@ public class Main {
                 if(entry.getValue() == '.'){
                     for (Point p: directions){
                         Point n = new Point(entry.getKey().x + p.x, entry.getKey().y + p.y);
-                        if(layout.get(n) != null && layout.get(n) != '#'){
+                        if(layout.containsKey(n) && layout.get(n) == '.'){
                             neigh.add(n);
                         }
                     }
                 }
-                if(entry.getValue() == '<'){
-                    neigh.add(new Point(entry.getKey().x, entry.getKey().y - 1));
-                }
-                if(entry.getValue() == '>'){
-                    neigh.add(new Point(entry.getKey().x, entry.getKey().y + 1));
-                }
-                if(entry.getValue() == 'v'){
-                    neigh.add(new Point(entry.getKey().x + 1, entry.getKey().y));
-                }
-                if(entry.getValue() == '^'){
-                    neigh.add(new Point(entry.getKey().x - 1, entry.getKey().y));
-                }
                 neighbors.put(entry.getKey(), neigh);
             }
-            assert start != null;
-            System.out.println(neighbors.get(start));
+            System.out.println(neighbors.get(new Point(137, 41)));
+            for(Map.Entry<Point, Character> entry : layout.entrySet()){
+                int count = 0;
+                if(entry.getValue() == '.'){
+                    for (Point p: directions){
+                        Point newPoint = new Point(entry.getKey().x + p.x, entry.getKey().y + p.y);
+                        if(layout.containsKey(newPoint) && layout.get(newPoint) == '.'){
+                            count++;
+                        }
+                    }
+                    if(count > 2){
+                        intersections.add(entry.getKey());
+                    }
+                }
+            }
+            intersections.add(0, start);
+            for(Point current: intersections){
+                ArrayList<Point> pf = neighbors.get(current);
+                for(Point point: pf){
+                    Point previous = current;
+                    Point here = point;
+                    int distance = 1;
+                    while(true){
+                        ArrayList<Point> points = new ArrayList<>();
+                        for(Point p: neighbors.get(here)) points.add(new Point(p.x, p.y));
+                        points.remove(previous);
+                        if(points.size() > 1 || here.equals(finish) ||intersections.contains(here)) break;
+                        previous = here;
+                        here = points.get(0);
+                        distance++;
+                    }
+                    if(!distances.containsKey(new Point(current.x, current.y))) distances.put(new Point(current.x, current.y), new HashMap<>());
+                    distances.get(new Point(current.x, current.y)).put(here, distance);
+                }
+            }
+            for(Point p: distances.keySet()) {
+                System.out.println(p + " " + distances.get(p));
+            }
 
             Comparator<PointWithVal> comp = Comparator.comparingInt(e -> e.value);
             PriorityQueue<PointWithVal> frontier = new PriorityQueue<>(comp.reversed());
             frontier.add(new PointWithVal(start, 0, new ArrayList<>()));
-            //HashMap<Point, Point> came_from = new HashMap<>();
-            //came_from.put(start, null);
-            HashMap<Point, Integer> cost_so_far = new HashMap<>();
-            cost_so_far.put(start, 0);
-
+            int cost = 0;
             while (!frontier.isEmpty()){
                 PointWithVal currentWithVal = frontier.poll();
                 Point current = currentWithVal.point;
-                if(current.equals(finish)) break;
-
-                for(Point next: neighbors.get(current)){
+                if(current.equals(finish)) {
+                    cost = Math.max(cost, currentWithVal.value);
+                    continue;
+                }
+                for(Point next: distances.get(current).keySet()){
                     if(currentWithVal.previous.contains(next)) continue;
-                    int new_cost = cost_so_far.get(current) + 1;
-                    if(!cost_so_far.containsKey(next) || new_cost > cost_so_far.get(next)){
-                        cost_so_far.put(next, new_cost);
-                        ArrayList<Point> p = new ArrayList<>();
-                        for(Point point: currentWithVal.previous) p.add(new Point(point.x, point.y));
-                        p.add(current);
-                        frontier.add(new PointWithVal(next, new_cost, p));
-                        //came_from.put(next, current);
-                    }
+                    int new_cost = currentWithVal.value + distances.get(current).get(next);
+                        ArrayList<Point> previous = new ArrayList<>();
+                        for(Point point: currentWithVal.previous) previous.add(new Point(point.x, point.y));
+                        previous.add(current);
+                        frontier.add(new PointWithVal(next, new_cost, previous));
                 }
             }
-            System.out.println(cost_so_far.get(finish));
+            System.out.println(cost);
         } catch (Exception e) {
             e.printStackTrace();
         }
